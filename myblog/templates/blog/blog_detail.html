@@ -1,0 +1,80 @@
+{% load static %}
+<html>
+<head>
+    <title>Мой блог</title>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css" media="all"/>
+
+
+</head>
+<body>
+<div class="shell">
+    <div class="border">
+
+        <div id="navigation">
+            {% if user.is_authenticated %}
+            <ul>
+                <li><a href="/" class="active">Главная</a></li>
+                <li><a href="/profile">Профиль</a></li>
+                <li><a href="/logout">Выход</a></li>
+            </ul>
+            {% else %}
+            <ul>
+                <li><a href="/" class="active">Главная</a></li>
+                <li><a href="/registration">Регистрация</a></li>
+                <li><a href="/login">Вход</a></li>
+            </ul>
+            {% endif %}
+        </div>
+
+        <div id="main">
+            <div id="content">
+
+                <div class="projects">
+                    <h3>{{ post.title }}</h3>
+                    <p align="center">
+                        <img src="{{ post.image.url }}" alt="изображение" width="50%"/>
+                    </p>
+                    <div class="item">
+                        <div class="text">
+                            <p>{{ post.description }}</p>
+                            <p><b>Автор:</b> {{ post.user }}</p>
+                            <p><b>Дата создания:</b> {{ post.date }}</p>
+                        </div>
+                        <div class="cl"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comment_form">
+                <h3>Добавить комментарий</h3>
+                <form class="form" action="{% url 'post_detail' pk=post.id %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit">Отправить</button>
+                </form>
+            </div>
+
+            <h3>Комментарии</h3>
+            <div class="commentsView">
+                {% for comment in comment %}
+                    <div class="comment">
+                        <p>Комментарий пользователя <b>{{comment.user}}</b></p>
+                        <p><b>Комментарий:</b> {{ comment.comment_text }}</p>
+                        <img src="{{ comment.comment_image.url  }}" alt="изображение" width="50%">
+                        <p><b>Добавлен</b> {{ comment.date }}</p>
+                        {% if comment.user == request.user %}
+                            <div class="comment_menu">
+                                <p><a href="{% url 'comment_edit' comment_id=comment.id %}">Редактировать</a></p>
+                                <p><a href="{% url 'comment_delete' comment_id=comment.id %}">Удалить</a></p>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

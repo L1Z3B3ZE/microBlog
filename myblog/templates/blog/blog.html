@@ -1,0 +1,107 @@
+{% load static %}
+<html>
+<head>
+	<title>Мой блог</title>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css" media="all" />
+
+
+</head>
+<body>
+<div class="shell">
+	<div class="border">
+
+		<div id="navigation">
+			{% if user.is_authenticated %}
+			    <ul>
+					<li><a href="/" class="active">Главная</a></li>
+					<li><a href="/profile">Профиль</a></li>
+					<li><a href="/logout">Выход</a></li>
+
+				</ul>
+			{% else %}
+				<ul>
+					<li><a href="/" class="active">Главная</a></li>
+					<li><a href="/registration">Регистрация</a></li>
+					<li><a href="/login">Вход</a></li>
+				</ul>
+			{% endif %}
+
+		</div>
+
+		<div id="main">
+			<div id="content" class="left">
+				{% if user.is_authenticated %}
+				<p>Пользователь: {{ user.get_username }}</p>
+				<div class="projects">
+					<h3>Посты</h3>
+					{% if post_list %}
+						{% for i in post_list %}
+						<div class="item">
+							<div class="image left">
+								<img src="{{ i.image.url }}" alt="изображение" width="175px" height="175px" />
+							</div>
+							<div class="text left">
+								<h4><a href="{{i.id}}">{{ i.title }}</a></h4>
+								<p><b>Описание:</b> {{ i.description }}</p>
+								<p><b>Автор:</b> {{ i.user }}</p>
+								<p><b>Дата создания:</b> {{ i.date }}</p>
+							</div>
+							<div class="cl"> </div>
+
+						</div>
+						{% endfor %}
+					{% else %}
+						<p>Нет постов</p>
+					{% endif %}
+				</div>
+				{% else %}
+				<div class="projects">
+					<h3>Посты</h3>
+					{% if post_list %}
+						{% for i in post_list %}
+						<div class="item">
+							<div class="image left">
+								<img src="{{ i.image.url }}" alt="изображение" width="175px" height="175px" />
+							</div>
+							<div class="text left">
+								<h4><a href="{{i.id}}">{{ i.title }}</a></h4>
+								<p>Описание: {{ i.description }}</p>
+								<p>Автор:  {{ i.user }}</p>
+								<p>Дата создания:  {{ i.date }}</p>
+							</div>
+							<div class="cl"> </div>
+
+						</div>
+						{% endfor %}
+					{% else %}
+						<p>Нет постов</p>
+					{% endif %}
+				</div>
+				{% endif %}
+			</div>
+
+			<div class="cl">&nbsp;</div>
+		</div>
+		{% if is_paginated %}
+			<div class="pagination">
+				<span class="page-links">
+					{% if page_obj.has_previous %}
+					<a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+					{% endif %}
+					<span class="page-current">
+						Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+					</span>
+					{% if page_obj.has_next %}
+					<a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+					{% endif %}
+				</span>
+			</div>
+		{% endif %}
+
+
+	</div>
+
+</div>
+</body>
+</html>

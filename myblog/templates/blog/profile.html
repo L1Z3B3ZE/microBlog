@@ -1,0 +1,67 @@
+{% load static %}
+<html>
+<head>
+	<title>Мой блог</title>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css" media="all" />
+
+
+</head>
+<body>
+<div class="shell">
+	<div class="border">
+
+		<div id="navigation">
+			    <ul>
+					<li><a href="/">Главная</a></li>
+					<li><a href="/profile" class="active">Профиль</a></li>
+					<li><a href="/logout">Выход</a></li>
+
+				</ul>
+		</div>
+
+		<div id="main">
+			<div id="content" class="left">
+				<div class="projects">
+					<h4>Профиль пользователя {{ user.username }}</h4>
+					<div class="user_data">
+						<img src="{{ user.avatar.url }}" alt="аватар" width="150px" />
+						<div class="user_change">
+							<p>Обо мне: {{ user.userInfo }}</p>
+							<a href="{% url 'profile_change' %}">Редактировать профиль</a>
+							<a href="{% url 'profile_delete' %}">Удалить профиль</a>
+						</div>
+
+					</div>
+					<h3>Ваши посты</h3>
+					<a href="{% url 'post_create' %}">Создать пост</a>
+					{% if post_user  %}
+						{% for i in post_user %}
+						<div class="item">
+							<div class="image left">
+								<img src="{{ i.image.url }}" alt="изображение" width="175px" height="175px" />
+							</div>
+							<div class="text left">
+								<h4><a href="{% url 'post_detail' i.id %}">{{ i.title }}</a></h4>
+								<p><b>Описание:</b> {{ i.description }}</p>
+								<p><b>Автор:</b> {{ i.user }}</p>
+								<p><b>Дата создания:</b> {{ i.date }}</p>
+							</div>
+							<div class="cl"> </div>
+
+						</div>
+						{% endfor %}
+					{% else %}
+						<p>у вас нет созданных постов</p>
+					{% endif %}
+				</div>
+			</div>
+
+			<div class="cl">&nbsp;</div>
+		</div>
+
+	</div>
+
+</div>
+</body>
+</html>

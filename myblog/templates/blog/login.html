@@ -1,0 +1,49 @@
+{% load static %}
+<html>
+<head>
+	<title>Мой блог</title>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css" media="all" />
+
+
+</head>
+<body>
+<div class="shell">
+	<div class="border">
+
+		<div id="main">
+          {% if user.is_authenticated %}
+            <p>Вы уже выполнили вход.</p>
+            {% else %}
+            <p>Please login to see this page.</p>
+            <form method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+                <table>
+                    <tr>
+                        <td>{{ form.username.label_tag }}</td>
+                        <td>{{ form.username }}</td>
+                    </tr>
+
+                    <tr>
+                        <td>{{ form.password.label_tag }}</td>
+                        <td>{{ form.password }}</td>
+                    </tr>
+                </table>
+
+                <input type="submit" value="login"/>
+                <input type="hidden" name="next" value="{{ next }}"/>
+            </form>
+            {% endif %}
+
+
+        </div>
+
+        <div class="cl">&nbsp;</div>
+		</div>
+
+
+	</div>
+
+</div>
+</body>
+</html>

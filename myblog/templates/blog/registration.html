@@ -1,0 +1,29 @@
+{% load static %}
+<html>
+<head>
+	<title>Мой блог</title>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css" media="all" />
+
+
+</head>
+<body>
+<div class="shell">
+	<div class="border">
+
+		<div id="main">
+            <h1>Регистрация</h1>
+            <form method="post" enctype="multipart/form-data">
+                {{form.as_p}}
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">Регистрация</button>
+            </form>
+        </div>
+		</div>
+
+
+	</div>
+
+</div>
+</body>
+</html>

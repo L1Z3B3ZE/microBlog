@@ -88,10 +88,13 @@ class PostView(generic.ListView):
     paginate_by = 50
     context_object_name = 'post_list'
 
+    def get_queryset(self):
+        return Post.objects.order_by('-date')
+
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, id=pk)
-    comment = Comment.objects.filter(post=post)
+    comment = Comment.objects.filter(post=post).order_by('-date')
     if request.method == "POST":
         form = CommentForm(request.POST, request.FILES)
         if form.is_valid():

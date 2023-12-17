@@ -86,7 +86,7 @@ textarea { overflow:auto; }
 
     padding: 20px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 15px;
 }
 
@@ -111,4 +111,10 @@ textarea { overflow:auto; }
     display: flex;
     flex-direction: row;
     gap: 20px;
+}
+
+.delete_form{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
